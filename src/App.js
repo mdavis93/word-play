@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Title from './components/Title';
+import GameBoard from './components/GameBoard';
+import {loadDictionary} from "./api/apiCalls";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lives: 6,
+      words: []
+    }
+  }
+
+  componentDidMount() {
+    loadDictionary()
+        .then( res => {
+          this.setState({words: this.state.words.concat(res)})
+        });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Title name={'Word Play'} />
+        <GameBoard word={this.state.words[Math.floor(Math.random()*this.state.words.length)]} />
       </div>
     );
   }
