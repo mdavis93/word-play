@@ -1,0 +1,11 @@
+.letter-tile {
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    padding: 10px 0;
+    margin: 5px;
+    color: black;
+}
+.letter-tile.hidden {
+    color: white;
+}

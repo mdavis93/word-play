@@ -1,0 +1,20 @@
+#letter-tray {
+    position: fixed;
+    bottom: 0;
+    height: 50%;
+}
+
+#letter-tray .letter-tile {
+    border: solid 1px black;
+    padding: 10px;
+    margin: 5px;
+}
+
+.letter-tile.clicked {
+    background-color: rgba(255, 100, 100, 0.25);
+}
+
+.disabled {
+    background-color: lightgray;
+    opacity: 0.5;
+}

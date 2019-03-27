@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './styles/App.css';
 import Title from './components/Title';
 import GameBoard from './components/GameBoard';
 import {loadDictionary} from "./api/apiCalls";

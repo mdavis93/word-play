@@ -1,0 +1,11 @@
+.App {
+  position: relative;
+  text-align: center;
+  height: 100vh;
+}
+
+#letter-tray {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
