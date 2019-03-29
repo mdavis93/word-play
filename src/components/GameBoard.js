@@ -18,6 +18,10 @@ class GameBoard extends Component {
     }
 
     processGuess(guess) {
+        if (!this.state.guesses.includes(guess.value))
+            this.setState((state, props) => {
+                return {guesses: state.guesses.concat(guess.value)}
+            });
         console.log(guess);
     }
 
@@ -62,7 +66,9 @@ class GameBoard extends Component {
 
                 <Keyboard
                     guesses={this.state.guesses}
-                    checkGuess={(guess) => this.processGuess(guess)}/>
+                    checkGuess={(guess) => this.processGuess(guess)}
+                    gameState={this.state.gameState}
+                />
             </div>
         )
     }
