@@ -2,22 +2,29 @@ import React, { Component } from 'react';
 import '../styles/letterTile.css';
 
 class SolutionArea extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            solution: []
-        }
+
+    componentDidMount() {
+        console.log("Solution: " + this.props.solution);
     }
 
-    // componentDidMount() {
-    //     this.setState({
-    //         solution: this.getLetters(this.props.word)
-    //     });
-    // }
+    letterToRender(letter) {
+        let found = this.props.guesses.includes(letter);
+
+        if (found)
+            return letter;
+        else
+            return " ";
+    }
 
     render() {
         return(
-            <div>Solution Area</div>
+            <div id={'solution-area'}>
+                {this.props.solution.split('').map((letter, index) =>
+                        <div key={index} className={'letter-tile'} onClick={() => this.props.processGuess(letter)}>
+                            {this.letterToRender(letter)}
+                        </div>
+                )}
+            </div>
         )
     }
 }

@@ -10,7 +10,3 @@
 #play-area {
     overflow-y: hidden;
 }
-
-#game-board .letter-tile {
-    margin: 0;
-}
