@@ -1,82 +1,68 @@
 import React, { Component } from 'react';
 import "../styles/gameBoard.css";
 import Lives from './Lives';
-import LetterTile from './LetterTile';
-import LetterTray from "./LetterTray";
+import SolutionArea from './SolutionArea';
+import Keyboard from "./Keyboard";
 
 class GameBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             secretWord: [],
-            active: false,
+            gameState: 'inactive',
             guesses: [],
-            attempts: 6
+            attempts: 4
         };
 
-        this.checkGuess = this.checkGuess.bind(this);
+        this.startGame = this.startGame.bind(this);
     }
 
-    getLetters(word) {
-        if (word) {
-            return word.split('').map((char) => {
-                return {
-                    value: char,
-                    found: false,
-                    clicked: false
-                };
-            });
+    processGuess(guess) {
+        console.log(guess);
+    }
+
+    startGame() {
+        let secretWord = this.props.nextWord();
+        let gameState = 'active';
+        let guesses = [];
+        let attempts = 6;
+        this.setState({secretWord, gameState, guesses, attempts});
+    }
+
+    renderGame() {
+        switch (this.state.gameState) {
+            case 'won':
+                return (
+                    <div>
+                        <h2><strong>Winner!!</strong></h2>
+                        <button onClick={this.startGame}>Start New Game</button>
+                    </div>
+                );
+            case 'lost':
+                return (<h2><strong>Try Again!</strong></h2>);
+            case 'active':
+                return (
+                    <SolutionArea solution={this.state.secretWord}/>
+                );
+            default:
+                return (
+                    <section>
+                        <h3><strong>Please Start A New Game</strong></h3>
+                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+                    </section>
+                );
         }
-        else
-            return "Loading.....".split('');
     }
 
-    buildPuzzle(e) {
-        e.preventDefault();
-        this.setState({
-            secretWord: this.getLetters(this.props.word),
-            active: true
-        });
-        console.dir(this.state.secretWord);
-    }
-
-    checkGuess(char) {
-        console.log("Game Is " + ( this.state.active ? "Active" : "Inactive"));
-        let result = -1;
-        let new_array = [];
-        this.state.secretWord.forEach( letter => {
-            if (char.value.toLowerCase() === (letter.value && letter.value.toLowerCase()) ) {
-                letter.found = true;
-                result = 1;
-            }
-            char.clicked = true;
-            this.setState({guesses: this.state.guesses.concat(letter)});
-        });
-        if (new_array !== this.state.letters) {
-            this.setState({letters: new_array});
-        }
-        console.log(`You clicked '${char.value}', so I returned the value '${result}'.`);
-        console.log(this.state.secretWord);
-        return result;
-    }
-
-    render(){
+    render() {
         return (
             <div id={'game-board'}>
-                <Lives />
-                <div id={'play-area'}>
-                    {!this.state.active && (
-                        <button className={'newGameBtn'} onClick={(e) => this.buildPuzzle(e)}>Begin New Game!</button>
-                    )}
-                    {this.state.active && (
-                        this.state.secretWord.map( (char, index) =>
-                            <LetterTile className="letter-tile" letter={char} key={index} />
-                        )
-                    )}
-                </div>
-                <div id={"keyboard"}>
-                   <LetterTray isGameActive={this.state.active} checkGuess={this.checkGuess} guesses={this.state.guesses}/>
-                </div>
+                <Lives attempts={this.state.attempts}/>
+                {this.renderGame()}
+
+                <Keyboard
+                    guesses={this.state.guesses}
+                    checkGuess={(guess) => this.processGuess(guess)}/>
             </div>
         )
     }

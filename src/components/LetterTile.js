@@ -12,7 +12,7 @@ class LetterTile extends Component {
     letterToShow(letter) {
         console.log(this.props.className);
         let givenChars = [".", ",", "-"];
-        if (givenChars.includes(letter.value) || letter.found)
+        if (givenChars.includes(letter) || letter.found)
             return letter.value;
         else
             return "?";
