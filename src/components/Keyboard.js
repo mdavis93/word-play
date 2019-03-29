@@ -18,7 +18,7 @@ class Keyboard extends Component {
     }
 
     buildStyleClasses(letter) {
-        if (this.props.gameState === 'inactive')
+        if (this.props.gameState !== 'active')
             return 'keyboard-tile disabled';
 
         let styleClasses = 'keyboard-tile ';

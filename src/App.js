@@ -16,7 +16,7 @@ class App extends Component {
   componentDidMount() {
     loadDictionary()
         .then( res => {
-          this.setState({words: this.state.words.concat(res)})
+          this.setState({words: this.state.words.concat(res.filter(w => w.length < 10))})
         });
   }
 

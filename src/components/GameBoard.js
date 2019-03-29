@@ -8,7 +8,7 @@ class GameBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secretWord: [],
+            secretWord: '',
             gameState: 'inactive',
             guesses: [],
             attempts: 4
@@ -22,8 +22,19 @@ class GameBoard extends Component {
         console.log("Process Guess For: " + guess);
         if (!this.state.guesses.includes(guess))
             this.setState({guesses: this.state.guesses.concat(guess)},
-                () => console.log(this.state.guesses)
+                () => {
+                    if (!this.state.secretWord.includes(guess))
+                        this.setState({attempts: this.state.attempts - 1},
+                            () => {
+                                if (this.state.attempts === 0)
+                                    this.gameOver();
+                            });
+                }
             );
+    }
+
+    gameOver() {
+        this.setState({gameState: 'lost'});
     }
 
     startGame() {
@@ -40,23 +51,30 @@ class GameBoard extends Component {
 
     renderGame() {
         let button;
-        if (this.state.secretWord) {
+        if (this.state.secretWord.length < 1) {
             button = <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
         } else {
             button = <div className={'spinner-border m-5'} role={'status'}>
             <span className={'sr-only'}>Loading...</span>
             </div>
         }
+
         switch (this.state.gameState) {
             case 'won':
                 return (
                     <div>
                         <h2><strong>Winner!!</strong></h2>
-                        <button onClick={this.startGame}>Start New Game</button>
+                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
                     </div>
                 );
             case 'lost':
-                return (<h2><strong>Try Again!</strong></h2>);
+                return (
+                    <div>
+                        <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} reveal={true}/>
+                        <h2><strong>Try Again!</strong></h2>
+                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+                    </div>
+                );
             case 'active':
                 return (
                     <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} processGuess={this.processGuess}/>
