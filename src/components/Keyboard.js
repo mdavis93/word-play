@@ -45,6 +45,9 @@ class Keyboard extends Component {
                         {char.value}
                     </div>
                 )}
+                <div id={'advertisements'}>
+                    <small><em>ADVERTISEMNT BANNER HERE</em></small>
+                </div>
             </div>
         )
     }

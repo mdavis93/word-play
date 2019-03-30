@@ -2,5 +2,11 @@
     color: red;
     font-size: 1.5em;
     margin: 0 5px;
-    transition: 0.4s;
+    transition: .3s;
+}
+
+.fa-heart.empty {
+    opacity: 0.15;
+    color: gray;
+    transition: .25s;
 }

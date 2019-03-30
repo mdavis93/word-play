@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../styles/letterTile.css';
+import '../styles/solutionArea.css';
 
 class LetterTile extends Component {
     constructor(props) {
@@ -10,7 +10,6 @@ class LetterTile extends Component {
     }
 
     letterToShow(letter) {
-        console.log(this.props.className);
         let givenChars = [".", ",", "-"];
         if (givenChars.includes(letter) || letter.found)
             return letter.value;

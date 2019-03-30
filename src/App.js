@@ -5,33 +5,38 @@ import GameBoard from './components/GameBoard';
 import {loadDictionary} from "./api/apiCalls";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lives: 6,
-      words: []
+    constructor(props) {
+        super(props);
+        this.state = {
+            difficulty: 1,
+            lives: 6,
+            words: []
+        }
     }
-  }
 
-  componentDidMount() {
-    loadDictionary()
-        .then( res => {
-          this.setState({words: this.state.words.concat(res.filter(w => w.length < 10))})
-        });
-  }
+    componentDidMount() {
+        loadDictionary(this.state.difficulty)
+            .then( res => {
+                this.setState({words: this.state.words.concat(res.filter(w => w.length < 10))})
+            });
+    }
 
-  getNextWord() {
-      return this.state.words[Math.floor(Math.random()*this.state.words.length)]
-  }
+    setDifficulty(level) {
+        this.setState({difficulty: level});
+    }
 
-  render() {
-    return (
-      <div className="App container">
-        <Title name={'Word Play'} />
-        <GameBoard nextWord={() => this.getNextWord()} />
-      </div>
-    );
-  }
+    getNextWord() {
+        return this.state.words[Math.floor(Math.random()*this.state.words.length)]
+    }
+
+    render() {
+        return (
+            <div className="App container">
+                <Title name={'Word Play'} />
+                <GameBoard nextWord={() => this.getNextWord()} setDifficulty={(level) => this.setDifficulty(level)}/>
+            </div>
+        );
+    }
 }
 
 export default App;

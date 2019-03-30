@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../styles/letterTile.css';
+import '../styles/solutionArea.css';
 
 class SolutionArea extends Component {
 
@@ -10,16 +10,15 @@ class SolutionArea extends Component {
     letterToRender(letter) {
         let found = this.props.guesses.includes(letter);
 
-        if (found || this.props.gameState === 'lost' || this.props.gameState === 'won' ){
-            debugger;
-            return letter;}
+        if (found || this.props.gameState === 'lost' || this.props.gameState === 'won' || this.props.reveal === true )
+            return letter;
         else
             return " ";
     }
 
     buildStyleClasses(letter) {
         let classes = ['letter-tile'];
-        if (this.props.reveal)
+        if (this.props.reveal && !this.props.guesses.includes(letter))
             classes.push('revealed');
         if (this.props.gameState === 'won')
             classes.push('winner');
@@ -30,7 +29,7 @@ class SolutionArea extends Component {
         return(
             <div id={'solution-area'}>
                 {this.props.solution.split('').map((letter, index) =>
-                        <div key={index} className={this.buildStyleClasses(letter)} onClick={() => this.props.processGuess(letter)}>
+                        <div key={index} className={this.buildStyleClasses(letter)}>
                             {this.letterToRender(letter)}
                         </div>
                 )}
