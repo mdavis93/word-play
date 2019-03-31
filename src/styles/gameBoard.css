@@ -1,0 +1,16 @@
+#game-board {
+    padding: 25px;
+    box-sizing: border-box;
+    position: relative;
+    height: 30vh;
+    border: solid 1px black;
+    border-radius: 5%;
+}
+
+#play-area {
+    overflow-y: hidden;
+}
+
+#game-board .letter-tile {
+    margin: 0;
+}

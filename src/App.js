@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './styles/App.css';
 import Title from './components/Title';
 import GameBoard from './components/GameBoard';
 import {loadDictionary} from "./api/apiCalls";
@@ -20,11 +20,15 @@ class App extends Component {
         });
   }
 
+  getNextWord() {
+      return this.state.words[Math.floor(Math.random()*this.state.words.length)]
+  }
+
   render() {
     return (
-      <div className="App">
+      <div className="App container">
         <Title name={'Word Play'} />
-        <GameBoard word={this.state.words[Math.floor(Math.random()*this.state.words.length)]} />
+        <GameBoard nextWord={() => this.getNextWord()} />
       </div>
     );
   }
