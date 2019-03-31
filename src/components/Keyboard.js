@@ -32,7 +32,7 @@ class Keyboard extends Component {
         if (this.props.gameState === 'inactive')
             return null;
         if (!this.props.guesses.includes(letter.value)){
-            this.props.checkGuess(letter);
+            this.props.checkGuess(letter.value);
         }
     }
 
