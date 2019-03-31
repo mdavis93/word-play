@@ -78,7 +78,7 @@ class GameBoard extends Component {
         let button;
         if (this.state.secretWord.length < 1 && this.state.gameState === 'inactive') {
             button =
-                <button className={'btn btn-success btn-lg'} onClick={this.startGame}><strong>Start New Game</strong>
+                <button className={'btn btn-success btn-lg new-game-btn'} onClick={this.startGame}><strong>Start New Game</strong>
                 </button>
         } else {
             button = <div className={'spinner-border m-5'} role={'status'}>
@@ -92,7 +92,7 @@ class GameBoard extends Component {
                     <div>
                         <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} reveal={true}/>
                         <h2><strong>Winner!!</strong></h2>
-                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+                        <button className={'btn btn-success new-game-btn'} onClick={this.startGame}>Start New Game</button>
                     </div>
                 );
             case 'lost':
@@ -100,7 +100,7 @@ class GameBoard extends Component {
                     <div>
                         <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} reveal={true}/>
                         <h2><strong>Try Again!</strong></h2>
-                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+                        <button className={'btn btn-success new-game-btn'} onClick={this.startGame}>Start New Game</button>
                     </div>
                 );
             case 'active':
@@ -162,7 +162,7 @@ class GameBoard extends Component {
                                 id={'guess'}
                                 onChange={(e) => this.onChange(e)}
                             />
-                            <button type={'submit'} className={'btn btn-primary'}>Submit</button>
+                            <button id={'guess-word-submit'} type={'submit'} className={'btn btn-primary'}>Submit</button>
                         </form>
                     </div>
                 </div>

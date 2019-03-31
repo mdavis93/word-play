@@ -17,6 +17,37 @@ class App extends Component {
 
     componentDidMount() {
         this.getWords();
+        document.addEventListener("keypress", this.handleKeyPress);
+    }
+
+    handleKeyPress(e) {
+        let handled = false;
+        let visible = null;
+        if (e.isTrusted) {
+            if (e.key === 'Enter') {
+                visible = document.getElementsByClassName(' new-game-btn');
+                try {
+                    visible = visible[0];
+                } catch(e) {
+                    console.log("An error occured while checking the class of the form on line 29 of 'App.js'\n\n");
+                    console.log(visible);
+                    console.log(e);
+                }
+                if (visible) {
+                    console.log(visible);
+                    visible.click();
+                }
+            }
+            let keyboardTiles = document.getElementsByClassName('keyboard-tile');
+            for (let key of keyboardTiles) {
+                if (key.innerText === e.key.toUpperCase()) {
+                    key.click();
+                    handled = true;
+                }
+            }
+        }
+        if (handled)
+            e.preventDefault();
     }
 
     getWords() {
