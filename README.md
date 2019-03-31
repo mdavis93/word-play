@@ -1,4 +1,5 @@
 # Word Play #
+[**LIVE DEMO** hosted on Heroku (Free Account, please allow up to 30 seconds for the dyno to start).](http://word-finder-28.herokuapp.com/)
 
 This project dons back to the days of pen and paper "_Hangman_", just without the dangling stick-figure.  Instead, the player has six _hearts_ to represent how many incorrect guesses they have.  For each incorrect guess, a heart is removed.  The game concludes when no hearts remain, or the full word has been uncovered.
 
