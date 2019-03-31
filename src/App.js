@@ -9,20 +9,33 @@ class App extends Component {
         super(props);
         this.state = {
             difficulty: 1,
+            level: 1,
             lives: 6,
             words: []
         }
     }
 
     componentDidMount() {
+        this.getWords();
+    }
+
+    getWords() {
         loadDictionary(this.state.difficulty)
             .then( res => {
-                this.setState({words: this.state.words.concat(res.filter(w => w.length < 10))})
+                this.setState({words: this.state.words.concat(res)})
             });
     }
 
-    setDifficulty(level) {
-        this.setState({difficulty: level});
+    setDifficulty() {
+        let newDifficulty = (Math.floor((this.state.level + 1)/5) + 1);
+        if (newDifficulty > this.state.difficulty) {
+            this.setState({
+                level: this.state.level + 1,
+                difficulty: newDifficulty
+            }, () => this.getWords());
+        } else {
+            this.setState({level: this.state.level + 1});
+        }
     }
 
     getNextWord() {
@@ -33,7 +46,11 @@ class App extends Component {
         return (
             <div className="App container">
                 <Title name={'Word Play'} />
-                <GameBoard nextWord={() => this.getNextWord()} setDifficulty={(level) => this.setDifficulty(level)}/>
+                <GameBoard nextWord={() => this.getNextWord()} nextLevel={() => this.setDifficulty()}/>
+
+                <div id={'advertisements'}>
+                    <small><em>ADVERTISEMNT BANNER HERE</em></small>
+                </div>
             </div>
         );
     }

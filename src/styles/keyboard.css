@@ -1,26 +1,17 @@
-#keyboardArea {
-    position: fixed;
+#keyboard {
+    position: absolute;
     align-items: center;
-    bottom: 0;
+    bottom: 75px;
     left: 0;
-    height: 50%;
 }
 
-#keyboardArea .keyboard-tile {
+.keyboard-tile {
     border: solid 1px black;
     display: inline-block;
     width: 2.5em;
     height: 2.85em;
     padding: 10px;
     margin: 5px;
-}
-
-#advertisements {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    background-color: lightgreen;
 }
 
 .keyboard-tile.chosen {

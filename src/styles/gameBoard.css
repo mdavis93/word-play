@@ -1,4 +1,4 @@
-#game-board {
+#gameboard {
     padding: 25px;
     box-sizing: border-box;
     position: relative;
@@ -7,6 +7,33 @@
     border-radius: 5%;
 }
 
-#play-area {
-    overflow-y: hidden;
+#start-new {
+    margin-top: 10vh;
+}
+
+#guess-now {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    margin-left: -25px;
+}
+
+#guess-now button{
+    margin: 0 auto;
+    display: block;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+#guessWordNowForm {
+    position: absolute;
+    bottom: 20px;
+}
+
+@media screen and (min-width: 800px) {
+    #gameboard{
+        height: 22vh;
+    }
 }

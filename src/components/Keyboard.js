@@ -39,15 +39,12 @@ class Keyboard extends Component {
     render() {
 
         return(
-            <div id={'keyboardArea'}>
+            <div id={'keyboard'}>
                 {this.state.alphabet.map( (char, index) =>
                     <div className={this.buildStyleClasses(char)} key={index} onClick={() => this.processLetter(char)}>
                         {char.value}
                     </div>
                 )}
-                <div id={'advertisements'}>
-                    <small><em>ADVERTISEMNT BANNER HERE</em></small>
-                </div>
             </div>
         )
     }
