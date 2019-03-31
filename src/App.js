@@ -49,7 +49,7 @@ class App extends Component {
                 <GameBoard nextWord={() => this.getNextWord()} nextLevel={() => this.setDifficulty()}/>
 
                 <div id={'advertisements'}>
-                    <small><em>ADVERTISEMNT BANNER HERE</em></small>
+                    <small><em>ADVERTISEMENT BANNER HERE</em></small>
                 </div>
             </div>
         );

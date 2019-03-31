@@ -19,7 +19,7 @@ class GameBoard extends Component {
         this.processGuess = this.processGuess.bind(this);
     }
 
-    processGuess(guess) {
+    async processGuess(guess) {
         if (this.state.gameState !== 'active')
             return null;
 
@@ -69,12 +69,9 @@ class GameBoard extends Component {
     }
 
     showGuessForm() {
-        let btnToHide = document.querySelector('#guess-now');
-        btnToHide.classList.toggle('hidden');
-        let selector = document.querySelector('#guessWordNowForm');
-        selector.classList.toggle('hidden');
-        let input = document.querySelector('#guess');
-        input.focus();
+        document.querySelector('#guess-now').classList.toggle('hidden');
+        document.querySelector('#guessWordNowForm').classList.toggle('hidden');
+        document.querySelector('#guess').focus();
     }
 
     renderGame() {
@@ -118,19 +115,17 @@ class GameBoard extends Component {
                 );
         }
     }
-e
-    checkWordGuess(e){
+
+    async checkWordGuess(e){
         e.preventDefault();
-        if (this.state.fullWordGuess !== this.state.secretWord) {
-            let incorrectGuesses = this.state.fullWordGuess.split('').filter((char) => {
-                return !this.state.secretWord.includes(char)
-            });
-
-            this.setState({guesses: this.state.guesses.concat(this.state.fullWordGuess.split('')), attempts: this.state.attempts - incorrectGuesses.length}, () => this.winOrLose());
-
-        } else {
-            this.setState({guesses: this.state.guesses.concat(this.state.fullWordGuess.split(''))}, () => this.winOrLose());
-        }
+        let gameOver = false;
+            for (let letter of this.state.fullWordGuess) {
+                if (!this.state.guesses.includes(letter)) {
+                    await this.processGuess(letter);
+                }
+                if (gameOver)
+                    break;
+            }
 
         this.setState({fullWordGuess: ''});
         let selector = document.querySelector('#guessWordNowForm');
