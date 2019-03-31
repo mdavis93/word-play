@@ -27,7 +27,7 @@ class SolutionArea extends Component {
 
     render() {
         return(
-            <div id={'solution-area'}>
+            <div id={'secret-word'}>
                 {this.props.solution.split('').map((letter, index) =>
                         <div key={index} className={this.buildStyleClasses(letter)}>
                             {this.letterToRender(letter)}

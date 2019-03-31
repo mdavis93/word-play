@@ -11,7 +11,8 @@ class GameBoard extends Component {
             secretWord: '',
             gameState: 'inactive',
             guesses: [],
-            attempts: 4
+            attempts: 6,
+            fullWordGuess: ''
         };
 
         this.startGame = this.startGame.bind(this);
@@ -38,18 +39,16 @@ class GameBoard extends Component {
             return null;
 
         if (this.state.attempts <= 0 && !this.hasAllLetters()) {
-            console.log("GAME OVER!");
             this.setState({gameState: 'lost'});
         } else if (this.hasAllLetters()) {
-            console.log("YOU WIN!");
-            this.setState({gameState: 'won'});
+            this.setState({gameState: 'won'}, () => this.props.nextLevel());
         }
     }
 
     hasAllLetters() {
         let matches = 0;
 
-        this.state.secretWord.split('').forEach( char =>{
+        this.state.secretWord.split('').forEach(char => {
             if (this.state.guesses.includes(char))
                 matches += 1;
         });
@@ -62,17 +61,28 @@ class GameBoard extends Component {
         let guesses = [];
         let attempts = 6;
         this.setState({secretWord, guesses, attempts}, () => {
-            if( this.state.secretWord)
+            if (this.state.secretWord)
                 this.setState({gameState: 'active'});
             else if (this.state.gameState === 'active' && !this.state.secretWord)
                 this.setState({gameState: 'inactive'});
         });
     }
 
+    showGuessForm() {
+        let btnToHide = document.querySelector('#guess-now');
+        btnToHide.classList.toggle('hidden');
+        let selector = document.querySelector('#guessWordNowForm');
+        selector.classList.toggle('hidden');
+        let input = document.querySelector('#guess');
+        input.focus();
+    }
+
     renderGame() {
         let button;
-        if (this.state.secretWord.length < 1) {
-            button = <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+        if (this.state.secretWord.length < 1 && this.state.gameState === 'inactive') {
+            button =
+                <button className={'btn btn-success btn-lg'} onClick={this.startGame}><strong>Start New Game</strong>
+                </button>
         } else {
             button = <div className={'spinner-border m-5'} role={'status'}>
                 <span className={'sr-only'}>Loading...</span>
@@ -102,19 +112,65 @@ class GameBoard extends Component {
                 );
             default:
                 return (
-                    <section>
+                    <section id={'start-new'}>
                         {button}
                     </section>
                 );
         }
     }
+e
+    checkWordGuess(e){
+        e.preventDefault();
+        if (this.state.fullWordGuess !== this.state.secretWord) {
+            let incorrectGuesses = this.state.fullWordGuess.split('').filter((char) => {
+                return !this.state.secretWord.includes(char)
+            });
+
+            this.setState({guesses: this.state.guesses.concat(this.state.fullWordGuess.split('')), attempts: this.state.attempts - incorrectGuesses.length}, () => this.winOrLose());
+
+        } else {
+            this.setState({guesses: this.state.guesses.concat(this.state.fullWordGuess.split(''))}, () => this.winOrLose());
+        }
+
+        this.setState({fullWordGuess: ''});
+        let selector = document.querySelector('#guessWordNowForm');
+        selector.classList.toggle('hidden');
+    }
+
+    onChange(e) {
+        this.setState({fullWordGuess: e.target.value.toUpperCase()});
+    }
 
     render() {
         return (
-            <div id={'game-board'}>
-                <Lives attempts={this.state.attempts}/>
-                {this.renderGame()}
+            <div>
+                <div id={'gameboard'}>
+                    {this.state.gameState !== 'inactive' &&
+                        <Lives attempts={this.state.attempts}/>
+                    }
 
+                    {this.renderGame()}
+
+                    {this.state.gameState === 'active' &&
+                        <div id={'guess-now'}>
+                            <button className={'btn btn-info btn-sm'} onClick={() => this.showGuessForm()}>Solve
+                                Now!
+                            </button>
+                        </div>
+                    }
+                    <div id={'guessWordNowForm'} className={'hidden'}>
+                        <form className={'form-row text-center'} onSubmit={(e) => this.checkWordGuess(e)}>
+                            <input
+                                value={this.state.fullWordGuess}
+                                type={'text'}
+                                className={'form-control col-7 offset-1'}
+                                id={'guess'}
+                                onChange={(e) => this.onChange(e)}
+                            />
+                            <button type={'submit'} className={'btn btn-primary'}>Submit</button>
+                        </form>
+                    </div>
+                </div>
                 <Keyboard
                     guesses={this.state.guesses}
                     checkGuess={(guess) => this.processGuess(guess)}
