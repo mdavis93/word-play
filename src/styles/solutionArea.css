@@ -1,6 +1,6 @@
 #solution-area {
     text-align: center;
-    margin-top: 2rem;
+    margin: 2rem 0 1rem 0;
 }
 
 .letter-tile {
@@ -14,6 +14,7 @@
     font-weight: bold;
     color: black;
 }
-.letter-tile.hidden {
-    color: white;
+.letter-tile.revealed {
+    color: red;
+    background-color: lightgray;
 }

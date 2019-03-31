@@ -15,6 +15,14 @@
     margin: 5px;
 }
 
+#advertisements {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: lightgreen;
+}
+
 .keyboard-tile.chosen {
     background-color: rgba(130, 130, 130, 0.65);
 }

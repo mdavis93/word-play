@@ -1,6 +1,7 @@
-export const loadDictionary = async () => {
+export const loadDictionary = async (difficulty) => {
+    console.log("Loading Difficulty '" + difficulty + "'");
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    const url = "http://app.linkedin-reach.io/words";
+    const url = "http://app.linkedin-reach.io/words?difficulty=" + difficulty;
     const response = await fetch(proxyurl + url);
 
     let words = await response.text();

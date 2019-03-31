@@ -10,7 +10,7 @@ class Lives extends Component {
             if (i < this.props.attempts)
                 toRender.push(<i className={'fas fa-heart'} key={i}></i>);
             else
-                toRender.push( <i className={'far fa-heart'} key={i}></i> );
+                toRender.push( <i className={'fas fa-heart empty'} key={i}></i> );
         }
         return toRender;
     }

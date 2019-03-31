@@ -8,7 +8,7 @@ class GameBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            secretWord: [],
+            secretWord: '',
             gameState: 'inactive',
             guesses: [],
             attempts: 4
@@ -19,11 +19,42 @@ class GameBoard extends Component {
     }
 
     processGuess(guess) {
-        console.log("Process Guess For: " + guess);
+        if (this.state.gameState !== 'active')
+            return null;
+
+        let attemptsRemaining = this.state.attempts;
         if (!this.state.guesses.includes(guess))
             this.setState({guesses: this.state.guesses.concat(guess)},
-                () => console.log(this.state.guesses)
-            );
+                () => {
+                    if (!this.state.secretWord.includes(guess))
+                        attemptsRemaining -= 1;
+
+                    this.setState({attempts: attemptsRemaining}, () => this.winOrLose());
+                });
+    }
+
+    winOrLose() {
+        if (this.state.attempts > 0 && !this.hasAllLetters())
+            return null;
+
+        if (this.state.attempts <= 0 && !this.hasAllLetters()) {
+            console.log("GAME OVER!");
+            this.setState({gameState: 'lost'});
+        } else if (this.hasAllLetters()) {
+            console.log("YOU WIN!");
+            this.setState({gameState: 'won'});
+        }
+    }
+
+    hasAllLetters() {
+        let matches = 0;
+
+        this.state.secretWord.split('').forEach( char =>{
+            if (this.state.guesses.includes(char))
+                matches += 1;
+        });
+
+        return (matches === this.state.secretWord.length);
     }
 
     startGame() {
@@ -40,26 +71,34 @@ class GameBoard extends Component {
 
     renderGame() {
         let button;
-        if (this.state.secretWord) {
+        if (this.state.secretWord.length < 1) {
             button = <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
         } else {
             button = <div className={'spinner-border m-5'} role={'status'}>
-            <span className={'sr-only'}>Loading...</span>
+                <span className={'sr-only'}>Loading...</span>
             </div>
         }
+
         switch (this.state.gameState) {
             case 'won':
                 return (
                     <div>
+                        <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} reveal={true}/>
                         <h2><strong>Winner!!</strong></h2>
-                        <button onClick={this.startGame}>Start New Game</button>
+                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
                     </div>
                 );
             case 'lost':
-                return (<h2><strong>Try Again!</strong></h2>);
+                return (
+                    <div>
+                        <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} reveal={true}/>
+                        <h2><strong>Try Again!</strong></h2>
+                        <button className={'btn btn-success'} onClick={this.startGame}>Start New Game</button>
+                    </div>
+                );
             case 'active':
                 return (
-                    <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses} processGuess={this.processGuess}/>
+                    <SolutionArea solution={this.state.secretWord} guesses={this.state.guesses}/>
                 );
             default:
                 return (
